@@ -1,0 +1,464 @@
+/* ============================================================
+   RUEDA LIBRE v2.0 – Hoja de estilos propia
+   Cargada DESPUÉS de Bootstrap 5.3.
+   Contiene SOLO identidad visual + personalización de Bootstrap.
+   La distribución la resuelve Bootstrap (grilla + utilidades).
+   ============================================================
+   Organización:
+     1. Personalización de variables Bootstrap (--bs-*)
+     2. Variables propias (marca + espaciado)
+     3. Base y tipografía
+     4. Personalización de componentes Bootstrap
+        - Botones (incluye variante propia Naranja Pedal)
+        - Navbar
+        - Cards
+        - Tablas
+        - Formularios
+        - Alertas
+        - Modal
+        - Carousel
+     5. Clases propias complementarias (3)
+     6. Enlaces, foco y accesibilidad
+     7. WhatsApp flotante
+     8. Estilos puntuales que Bootstrap no cubre
+   ============================================================ */
+
+/* ---------- 1. PERSONALIZACIÓN DE VARIABLES BOOTSTRAP ---------- */
+/* Sobrescribe los valores por defecto de Bootstrap 5.3 con la
+   paleta de marca. Cargado después de Bootstrap, gana por cascada. */
+:root {
+  /* Colores de marca – variables propias reutilizables */
+  --verde-ruta: #1E7A4F;
+  --verde-ruta-rgb: 30, 122, 79;
+  --naranja-pedal: #F39A2B;
+  --naranja-pedal-rgb: 243, 154, 43;
+  --azul-noche: #14213D;
+  --azul-noche-rgb: 20, 33, 61;
+  --crema: #FAF6EF;
+  --crema-rgb: 250, 246, 239;
+  --gris-asfalto: #5B6470;
+  --gris-asfalto-rgb: 91, 100, 112;
+
+  /* Personalización de Bootstrap 5.3 (variables --bs-*) */
+  --bs-primary: #1E7A4F;
+  --bs-primary-rgb: 30, 122, 79;
+  --bs-body-bg: #FAF6EF;
+  --bs-body-color: #5B6470;
+  --bs-body-font-family: "Open Sans", Arial, sans-serif;
+  --bs-link-color: #1E7A4F;
+  --bs-link-color-rgb: 30, 122, 79;
+  --bs-link-hover-color: #F39A2B;
+  --bs-link-hover-color-rgb: 243, 154, 43;
+  --bs-border-radius: 0.5rem;
+  --bs-heading-font-family: "Montserrat", Arial, sans-serif;
+
+  /* Escala de espaciado propia (complementa la de Bootstrap) */
+  --esp-pequeno: 0.5rem;
+  --esp-mediano: 1rem;
+  --esp-grande: 2rem;
+
+  /* Sombra suave reutilizable */
+  --sombra-suave: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+/* ---------- 2. BASE Y TIPOGRAFÍA ---------- */
+body {
+  font-family: var(--bs-body-font-family);
+  color: var(--bs-body-color);
+  background-color: var(--bs-body-bg);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--bs-heading-font-family);
+  font-weight: 700;
+  color: var(--azul-noche);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---------- 3. BOTONES ---------- */
+/* Botón primario (btn-success en marcado, pero también cubre .btn-primary) */
+.btn-primary,
+.btn-success {
+  --bs-btn-bg: var(--verde-ruta);
+  --bs-btn-border-color: var(--verde-ruta);
+  --bs-btn-color: var(--crema);
+  --bs-btn-hover-bg: var(--naranja-pedal);
+  --bs-btn-hover-border-color: var(--naranja-pedal);
+  --bs-btn-hover-color: var(--azul-noche);
+  --bs-btn-active-bg: var(--naranja-pedal);
+  --bs-btn-active-border-color: var(--naranja-pedal);
+  --bs-btn-active-color: var(--azul-noche);
+  --bs-btn-focus-shadow-rgb: var(--naranja-pedal-rgb);
+  font-weight: 700;
+}
+
+/* Variante propia: Naranja Pedal (usa --bs-btn-* pero con clase propia) */
+.btn-naranja {
+  --bs-btn-bg: var(--naranja-pedal);
+  --bs-btn-border-color: var(--naranja-pedal);
+  --bs-btn-color: var(--azul-noche);
+  --bs-btn-hover-bg: var(--verde-ruta);
+  --bs-btn-hover-border-color: var(--verde-ruta);
+  --bs-btn-hover-color: var(--crema);
+  --bs-btn-active-bg: var(--verde-ruta);
+  --bs-btn-active-border-color: var(--verde-ruta);
+  --bs-btn-active-color: var(--crema);
+  --bs-btn-focus-shadow-rgb: var(--verde-ruta-rgb);
+  font-weight: 700;
+}
+
+/* Botón outline coherente con la marca */
+.btn-outline-success {
+  --bs-btn-color: var(--verde-ruta);
+  --bs-btn-border-color: var(--verde-ruta);
+  --bs-btn-hover-bg: var(--verde-ruta);
+  --bs-btn-hover-border-color: var(--verde-ruta);
+  --bs-btn-hover-color: var(--crema);
+  --bs-btn-active-bg: var(--verde-ruta);
+  --bs-btn-active-border-color: var(--verde-ruta);
+  --bs-btn-active-color: var(--crema);
+  font-weight: 700;
+}
+
+/* Ajuste del btn-warning para que use Azul Noche como texto
+   (contraste 7.22:1 con Naranja Pedal) */
+.btn-warning {
+  --bs-btn-bg: var(--naranja-pedal);
+  --bs-btn-border-color: var(--naranja-pedal);
+  --bs-btn-color: var(--azul-noche);
+  --bs-btn-hover-bg: var(--verde-ruta);
+  --bs-btn-hover-border-color: var(--verde-ruta);
+  --bs-btn-hover-color: var(--crema);
+  --bs-btn-active-bg: var(--verde-ruta);
+  --bs-btn-active-border-color: var(--verde-ruta);
+  --bs-btn-active-color: var(--crema);
+  font-weight: 700;
+}
+
+/* ---------- 4. NAVBAR ---------- */
+.navbar {
+  background-color: var(--azul-noche) !important;
+}
+
+.navbar-brand {
+  font-family: var(--bs-heading-font-family);
+  font-weight: 700;
+  color: var(--crema) !important;
+  font-size: 1.4rem;
+}
+
+.navbar-brand:hover,
+.navbar-brand:focus {
+  color: var(--naranja-pedal) !important;
+}
+
+.navbar .nav-link {
+  color: var(--crema);
+  font-weight: 600;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
+  color: var(--naranja-pedal);
+}
+
+.navbar .nav-link[aria-current="page"] {
+  color: var(--naranja-pedal);
+  font-weight: 700;
+  border-bottom: 2px solid var(--naranja-pedal);
+}
+
+.navbar-toggler {
+  border-color: var(--crema);
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23FAF6EF' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* ---------- 5. CARDS ---------- */
+.card {
+  border: 1px solid #d1cbbd;
+  border-radius: var(--bs-border-radius);
+  box-shadow: var(--sombra-suave);
+  background-color: #ffffff;
+}
+
+.card-title {
+  color: var(--azul-noche);
+  font-family: var(--bs-heading-font-family);
+}
+
+.card .precio {
+  font-weight: 700;
+  color: var(--verde-ruta);
+  font-size: 1.1rem;
+}
+
+.card .unidad {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--gris-asfalto);
+}
+
+.card-img-top {
+  height: 180px;
+  object-fit: cover;
+}
+
+/* ---------- 6. TABLAS (estilos propios de la semana 1 conservados) ---------- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  color: var(--gris-asfalto);
+}
+
+table caption {
+  font-family: var(--bs-heading-font-family);
+  font-weight: 700;
+  color: var(--azul-noche);
+  text-align: left;
+  margin-bottom: 0.5rem;
+}
+
+table th,
+table td {
+  border: 1px solid #d1cbbd;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+table th {
+  background-color: var(--azul-noche);
+  color: var(--crema);
+}
+
+table tbody tr:nth-child(even) {
+  background-color: var(--crema);
+}
+
+/* ---------- 7. FORMULARIOS ---------- */
+.form-label {
+  font-weight: 600;
+  color: var(--azul-noche);
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  border-color: var(--azul-noche);
+  box-shadow: 0 0 0 0.25rem rgba(var(--naranja-pedal-rgb), 0.5);
+}
+
+.form-check-input:checked {
+  background-color: var(--verde-ruta);
+  border-color: var(--verde-ruta);
+}
+
+/* ---------- 8. ALERTAS ---------- */
+/* Alerta informativa con borde de marca */
+.alert-info {
+  background-color: #E7F1EC;
+  border-color: var(--verde-ruta);
+  color: var(--azul-noche);
+}
+
+/* ---------- 9. MODAL ---------- */
+.modal-header {
+  background-color: var(--azul-noche);
+  color: var(--crema);
+}
+
+.modal-header .modal-title {
+  color: var(--crema);
+  font-family: var(--bs-heading-font-family);
+}
+
+.modal-header .btn-close {
+  filter: invert(1) brightness(2);
+}
+
+.modal-footer .btn-primary {
+  --bs-btn-bg: var(--verde-ruta);
+  --bs-btn-border-color: var(--verde-ruta);
+}
+
+/* ---------- 10. CAROUSEL ---------- */
+.carousel-item img {
+  height: 320px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.carousel-caption {
+  background-color: rgba(20, 33, 61, 0.75);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+}
+
+.carousel-caption h3 {
+  color: var(--crema);
+  font-family: var(--bs-heading-font-family);
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(1) brightness(2);
+}
+
+/* ============================================================
+   11. CLASES PROPIAS COMPLEMENTARIAS (mínimo 3 exigidas)
+   ============================================================ */
+
+/* (1) .portada-texto – centra verticalmente el bloque de texto
+   de la portada dentro de su columna de la grilla. */
+.portada-texto {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.portada-altura {
+  min-height: 60vh;
+}
+
+/* (2) .titulo-seccion – título de sección con subrayado de marca
+   (no modifica .card-title ni .modal-title de Bootstrap). */
+.titulo-seccion {
+  text-align: center;
+  color: var(--azul-noche);
+  font-family: var(--bs-heading-font-family);
+  font-weight: 700;
+  margin-bottom: 2rem;
+  position: relative;
+  padding-bottom: 0.75rem;
+}
+
+.titulo-seccion::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: 60px;
+  height: 4px;
+  background-color: var(--naranja-pedal);
+  border-radius: 2px;
+}
+
+/* (3) .pie-marca – variante de footer con la identidad de marca
+   (no reemplaza .text-bg-dark de Bootstrap, lo complementa). */
+.pie-marca {
+  background-color: var(--azul-noche);
+  color: var(--crema);
+}
+
+.pie-marca h3,
+.pie-marca h5 {
+  color: var(--crema);
+  font-family: var(--bs-heading-font-family);
+}
+
+.pie-marca a {
+  color: var(--naranja-pedal);
+  text-decoration: underline;
+}
+
+.pie-marca a:hover,
+.pie-marca a:focus {
+  color: var(--crema);
+}
+
+/* ---------- 12. ENLACES, FOCO Y ACCESIBILIDAD ---------- */
+a {
+  color: var(--bs-link-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+a:hover,
+a:focus {
+  color: var(--bs-link-hover-color);
+  text-decoration: underline;
+}
+
+/* Foco visible siempre (no se elimina el outline del navegador) */
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--naranja-pedal);
+  outline-offset: 2px;
+}
+
+/* ---------- 13. WHATSAPP FLOTANTE ---------- */
+.whatsapp-flotante {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 1050; /* por encima del navbar fijo, por debajo del modal */
+  background-color: var(--verde-ruta);
+  color: var(--crema);
+  padding: 0.7rem 1rem;
+  border-radius: 50px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.whatsapp-flotante:hover,
+.whatsapp-flotante:focus {
+  background-color: var(--naranja-pedal);
+  color: var(--azul-noche);
+  text-decoration: none;
+}
+
+/* ---------- 14. DETALLES QUE BOOTSTRAP NO CUBRE ---------- */
+
+/* Espacio inferior del footer para que el WhatsApp flotante
+   no tape contenido (Bootstrap no tiene utilidad para esto). */
+footer.pie-marca {
+  padding-bottom: calc(1.5rem + 3.5rem);
+}
+
+/* Badge "Nuevo" con posición absoluta sobre la card
+   (Bootstrap ya trae .position-absolute y .badge, esta regla
+   solo fija el offset con variables de marca). */
+.card .badge-nuevo {
+  background-color: var(--naranja-pedal);
+  color: var(--azul-noche);
+  font-weight: 700;
+}
+
+/* Iframe del mapa: borde redondeado para integrarlo visualmente */
+.mapa-iframe {
+  border: 0;
+  border-radius: 8px;
+  width: 100%;
+}
+
+/* dl de horario dentro del aside */
+.info-lateral {
+  background-color: var(--crema);
+  border-left: 4px solid var(--naranja-pedal);
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.info-lateral dt {
+  font-weight: 700;
+  color: var(--azul-noche);
+}
+
+.info-lateral dd {
+  margin-bottom: 0.75rem;
+  color: var(--gris-asfalto);
+}

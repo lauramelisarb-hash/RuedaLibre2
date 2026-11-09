@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Formulario de reserva para alquiler de bicicletas y recorridos guiados en Rueda Libre.">
+  <title>Reserva tu bicicleta | Rueda Libre</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3 CSS (antes de la hoja propia) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+        crossorigin="anonymous">
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Hoja propia DESPUÉS de Bootstrap -->
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+  <header>
+    <nav class="navbar navbar-expand-lg" aria-label="Navegación principal">
+      <div class="container">
+        <a class="navbar-brand" href="../index.html">
+          <i class="bi bi-bicycle me-2" aria-hidden="true"></i>Rueda Libre
+        </a>
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#menuPrincipal"
+                aria-controls="menuPrincipal" aria-expanded="false"
+                aria-label="Abrir o cerrar menú de navegación">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="menuPrincipal">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="../index.html">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="tarifas.html">Tarifas y rutas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="reservas.html" aria-current="page">Reservas</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container py-4">
+
+    <h1 class="mb-3">Reserva tu bicicleta</h1>
+    <p class="lead mb-4">¿Estás listo para recorrer Medellín sobre dos ruedas? Completa el
+      siguiente formulario para asegurar tu equipo o cupo.</p>
+
+    <!-- ALERTA: recordatorio del documento -->
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+      <i class="bi bi-info-circle me-1" aria-hidden="true"></i>
+      <strong>Recuerda:</strong> debes presentar tu documento de identidad original al recoger la bicicleta.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar aviso"></button>
+    </div>
+
+    <div class="row g-4">
+
+      <!-- FORMULARIO (8/12 desde md) -->
+      <section id="formulario-reserva" class="col-12 col-md-8">
+        <h2 class="mb-3">Formulario de reserva</h2>
+
+        <form action="#" method="post" class="needs-validation" novalidate>
+
+          <!-- GRUPO 1: TUS DATOS -->
+          <fieldset class="mb-4">
+            <legend class="fs-5">Tus datos</legend>
+
+            <div class="row g-3">
+              <div class="col-12">
+                <label for="nombre" class="form-label">Nombre completo:</label>
+                <input type="text" class="form-control" id="nombre" name="nombre"
+                       required minlength="3" placeholder="Tu nombre y apellido">
+                <div class="invalid-feedback">
+                  Escribe tu nombre y apellido completos (mínimo 3 caracteres).
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label for="documento" class="form-label">Número de documento:</label>
+                <input type="text" class="form-control" id="documento" name="documento"
+                       required pattern="[0-9]{6,12}" placeholder="Ej. 1020304050">
+                <div class="invalid-feedback">
+                  El documento debe tener entre 6 y 12 dígitos numéricos.
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label for="telefono" class="form-label">Número de celular:</label>
+                <input type="tel" class="form-control" id="telefono" name="telefono"
+                       required pattern="[0-9]{10}" placeholder="3001234567">
+                <div class="invalid-feedback">
+                  El celular debe tener exactamente 10 dígitos numéricos.
+                </div>
+              </div>
+
+              <div class="col-12">
+                <label for="correo" class="form-label">Correo electrónico:</label>
+                <input type="email" class="form-control" id="correo" name="correo"
+                       required placeholder="ejemplo@correo.com">
+                <div class="invalid-feedback">
+                  Escribe un correo válido, por ejemplo: nombre@dominio.com.
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- GRUPO 2: TU ALQUILER -->
+          <fieldset class="mb-4">
+            <legend class="fs-5">Tu alquiler</legend>
+
+            <div class="mb-3">
+              <p class="mb-2">Selecciona el tipo de servicio:</p>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="tipo_servicio"
+                       id="servicio_alquiler" value="alquiler" checked>
+                <label class="form-check-label" for="servicio_alquiler">Alquiler de bicicleta</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="tipo_servicio"
+                       id="servicio_recorrido" value="recorrido">
+                <label class="form-check-label" for="servicio_recorrido">Recorrido guiado</label>
+              </div>
+            </div>
+
+            <div class="row g-3">
+              <div class="col-12 col-md-6">
+                <label for="opcion_alquiler" class="form-label">Opciones de alquiler (tipo y duración):</label>
+                <select class="form-select" id="opcion_alquiler" name="opcion_alquiler" required>
+                  <option value="">-- Selecciona tarifa de alquiler --</option>
+                  <optgroup label="Urbana">
+                    <option value="urbana_1h">Urbana - 1 hora ($10.000)</option>
+                    <option value="urbana_4h">Urbana - Medio día / 4 h ($30.000)</option>
+                    <option value="urbana_dia">Urbana - Día completo ($50.000)</option>
+                  </optgroup>
+                  <optgroup label="Montaña">
+                    <option value="montana_1h">Montaña - 1 hora ($15.000)</option>
+                    <option value="montana_4h">Montaña - Medio día / 4 h ($45.000)</option>
+                    <option value="montana_dia">Montaña - Día completo ($70.000)</option>
+                  </optgroup>
+                  <optgroup label="Eléctrica">
+                    <option value="electrica_1h">Eléctrica - 1 hora ($25.000)</option>
+                    <option value="electrica_4h">Eléctrica - Medio día / 4 h ($70.000)</option>
+                    <option value="electrica_dia">Eléctrica - Día completo ($110.000)</option>
+                  </optgroup>
+                </select>
+                <div class="invalid-feedback">
+                  Selecciona una tarifa de alquiler.
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label for="tipo_recorrido" class="form-label">O recorridos guiados:</label>
+                <select class="form-select" id="tipo_recorrido" name="tipo_recorrido">
+                  <option value="">-- Selecciona un recorrido guiado --</option>
+                  <option value="rio_parques">Río y Parques (12 km, 2 h, Fácil) - $45.000</option>
+                  <option value="sabores_barrio">Sabores de Barrio (18 km, 3 h, Medio) - $60.000</option>
+                  <option value="reto_las_palmas">Reto Las Palmas (25 km, 4 h, Difícil) - $85.000</option>
+                </select>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label for="fecha" class="form-label">Fecha de la reserva:</label>
+                <input type="date" class="form-control" id="fecha" name="fecha" required>
+                <div class="invalid-feedback">
+                  Selecciona la fecha en la que quieres hacer tu reserva.
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label for="cantidad" class="form-label">Cantidad de bicicletas o personas:</label>
+                <input type="number" class="form-control" id="cantidad" name="cantidad"
+                       min="1" max="10" value="1" required>
+                <div class="invalid-feedback">
+                  La cantidad debe estar entre 1 y 10.
+                </div>
+              </div>
+
+              <div class="col-12">
+                <label for="comentarios" class="form-label">Comentarios adicionales o solicitudes especiales:</label>
+                <textarea class="form-control" id="comentarios" name="comentarios" rows="4"
+                          placeholder="Escribe aquí detalles adicionales..."></textarea>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- GRUPO 3: CONFIRMACIÓN -->
+          <fieldset class="mb-4">
+            <legend class="fs-5">Confirmación</legend>
+
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="terminos" name="terminos"
+                     value="aceptados" required>
+              <label class="form-check-label" for="terminos">
+                Acepto los términos, condiciones y políticas de seguridad (incluye casco y candado).
+              </label>
+              <div class="invalid-feedback">
+                Debes aceptar los términos y políticas para poder reservar.
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-outline-success mb-3"
+                    data-bs-toggle="modal" data-bs-target="#modalPoliticas">
+              <i class="bi bi-file-text me-1" aria-hidden="true"></i>Ver políticas de alquiler
+            </button>
+
+            <div class="d-grid d-md-block">
+              <button type="submit" name="enviar_reserva" class="btn btn-primary btn-lg">
+                <i class="bi bi-send me-1" aria-hidden="true"></i>Enviar reserva
+              </button>
+            </div>
+          </fieldset>
+
+        </form>
+      </section>
+
+      <!-- ASIDE: HORARIO (4/12 desde md) -->
+      <aside class="col-12 col-md-4">
+        <div class="info-lateral" aria-labelledby="horario-atencion">
+          <h2 id="horario-atencion" class="fs-4">Horario de atención</h2>
+          <dl class="mb-3">
+            <dt><i class="bi bi-clock me-1" aria-hidden="true"></i>Lunes a viernes</dt>
+            <dd>7:00 a. m. a 7:00 p. m.</dd>
+            <dt><i class="bi bi-clock-history me-1" aria-hidden="true"></i>Sábados, domingos y festivos</dt>
+            <dd>6:00 a. m. a 2:00 p. m.</dd>
+          </dl>
+          <p class="mb-0">¿Dudas?
+            <a href="https://wa.me/573000000000" target="_blank" rel="noopener">
+              <i class="bi bi-whatsapp me-1" aria-hidden="true"></i>Escríbenos por WhatsApp</a>.
+          </p>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- PIE -->
+  <footer class="pie-marca py-4">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-12 col-md-4">
+          <h3 class="fs-5"><i class="bi bi-bicycle me-2" aria-hidden="true"></i>Rueda Libre</h3>
+          <p>Alquiler de bicicletas y recorridos guiados en Medellín.</p>
+        </div>
+        <div class="col-12 col-md-4">
+          <h3 class="fs-5">Contacto</h3>
+          <p><i class="bi bi-envelope me-1" aria-hidden="true"></i>
+            <a href="mailto:info@ruedalibre.com">info@ruedalibre.com</a></p>
+          <p><i class="bi bi-whatsapp me-1" aria-hidden="true"></i>
+            <a href="https://wa.me/573000000000" target="_blank" rel="noopener">+57 300 000 0000</a></p>
+          <p><i class="bi bi-geo-alt me-1" aria-hidden="true"></i>Calle 10 # 43A - 25, El Poblado</p>
+        </div>
+        <div class="col-12 col-md-4">
+          <h3 class="fs-5">Horario</h3>
+          <p><i class="bi bi-clock me-1" aria-hidden="true"></i>Lunes a viernes: 7:00 a. m. – 7:00 p. m.</p>
+          <p><i class="bi bi-clock-history me-1" aria-hidden="true"></i>Sábados, domingos y festivos: 6:00 a. m. – 2:00 p. m.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp flotante -->
+  <a href="https://wa.me/573000000000" class="whatsapp-flotante" target="_blank" rel="noopener"
+     aria-label="Contactar a Rueda Libre por WhatsApp">
+    <i class="bi bi-whatsapp me-1" aria-hidden="true"></i>WhatsApp
+  </a>
+
+  <!-- MODAL: Políticas de alquiler -->
+  <div class="modal fade" id="modalPoliticas" tabindex="-1"
+       aria-labelledby="modalPoliticasLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title fs-5" id="modalPoliticasLabel">
+            <i class="bi bi-file-text me-1" aria-hidden="true"></i>Políticas de alquiler
+          </h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"
+                  aria-label="Cerrar ventana de políticas"></button>
+        </div>
+        <div class="modal-body">
+          <ol class="mb-0">
+            <li>Presenta tu documento de identidad original al recoger la bicicleta.</li>
+            <li>Revisa la bicicleta con el asesor antes de salir.</li>
+            <li>Cada 15 minutos de retraso en la devolución tienen un recargo de $5.000.</li>
+            <li>Los daños por mal uso se cobran según el costo de la reparación.</li>
+            <li>Los menores de edad deben estar acompañados por un adulto responsable.</li>
+          </ol>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Entendido</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS bundle (una sola vez, antes de cerrar body) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
+
+  <!-- Script oficial de validación de Bootstrap 5.3 (copiado sin cambios de la documentación) -->
+  <script>
+    (() => {
+      'use strict'
+      const forms = document.querySelectorAll('.needs-validation')
+      Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+          form.classList.add('was-validated')
+        }, false)
+      })
+    })()
+  </script>
+
+</body>
+</html>
