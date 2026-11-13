@@ -1,484 +1,582 @@
 ================================================================
-BITÁCORA – RUEDA LIBRE
-Reto académico – Días 2 a 6
-================================================================
 
-================================================================
-DÍA 2 – SEMÁNTICA HTML
+SEMÁNTICA HTML
+
 ================================================================
 
 --- 1. ESQUEMA DE REGIONES (texto) ---
 
 INDEX.HTML
+
   header
+
     - <p> nombre del negocio
+
     - nav > ul#menu (navegación principal)
+
   main
+
     - section#bienvenida (portada)
+
     - section#quienes-somos
+
     - section#nuestros-servicios
+
         * article (Alquiler)
+
         * article (Recorridos guiados)
+
         * article (Planes grupales)
+
         * article (Tours guiados)
+
     - section#nuestra-flota
+
         * div.grid-flota (contenedor)
+
             - article.tarjeta-bici x7
+
     - section#nuestras-rutas
+
         * div.grid-rutas
+
             - article.tarjeta-ruta x3
+
     - section#como-alquilar
+
     - section#por-que-rueda-libre
+
         * article.beneficio x4
+
     - section.franja-cta
+
     - section#encuentranos
+
   footer
+
     - div.footer-bloques > 3 div (marca, contacto, horario)
 
 TARIFAS.HTML
+
   header
+
     - <p> + nav > ul#menu
+
   main
+
     - h1
+
     - section#tarifas-alquiler > table
+
     - section#recorridos-guiados > table + p + h3 + p
+
     - aside.info-lateral (Qué llevar)
+
   footer
+
     - div.footer-bloques > 3 div
 
 RESERVAS.HTML
+
   header
+
     - <p> + nav > ul#menu
+
   main
+
     - h1 + p
+
     - div.layout-reservas
+
         - section#formulario-reserva > form (3 fieldset)
+
         - aside.info-lateral (Horario de atención)
+
   footer
+
     - div.footer-bloques > 3 div
 
 --- 2. JUSTIFICACIÓN DE <div> Y <span> CONSERVADOS ---
 
 <div class="grid-flota"> y <div class="grid-rutas">:
+
   Son contenedores puros de grilla. No existe etiqueta HTML con
+
   semántica "contenedor de grilla". Convertirlos a <section> sería
+
   incorrecto porque no representan una sección temática propia: la
+
   sección ya existe en el <section> padre.
 
 <div class="footer-bloques">:
+
   Contenedor flex para distribuir los 3 bloques del pie. No hay
+
   etiqueta con ese significado. El <footer> padre ya agrupa
+
   semánticamente el contenido.
 
 <div class="portada-texto">:
+
   Contenedor flex del bloque de texto de la portada. La semántica ya
+
   la da el <section> que lo contiene.
 
 <div class="fila-doble">:
+
   Contenedor Grid para poner dos campos en la misma fila (fecha y
+
   cantidad). No tiene significado semántico propio.
 
 <div class="contenido"> (dentro de tarjeta-ruta):
+
   Envoltorio del texto de la tarjeta para separarlo de la imagen a
+
   nivel de layout. La semántica del artículo ya la da el <article>.
 
 <span class="unidad">:
+
   Texto inline dentro del párrafo de precio ("/ hora"). No tiene un
+
   equivalente semántico; <small> cambiaría el significado (no es una
+
   nota legal ni letra chica). Se justifica como span.
 
 <span class="nuevo">:
+
   Etiqueta visual "Nuevo" sobre la tarjeta. Es información de estado
-  presentada visualmente; no encaja en <em>, <strong> ni <mark>
+
+  presentada visualmente; no encaja en <em>, <strong>
+
   (ninguna cambia el significado correcto). Se justifica como span.
 
-<span class="nivel">:
-  Nivel del recorrido (Fácil / Medio / Difícil). Es una etiqueta
-  inline. Podría ser <em> pero implicaría énfasis, no es el caso.
-  Se justifica como span.
 
---- 3. CONVERSIONES SEMÁNTICAS REALIZADAS ---
+<span class="nivel">:
+
+  Nivel del recorrido (Fácil / Medio / Difícil). Es una etiqueta
+
+  inline.
+
+CONVERSIONES SEMÁNTICAS REALIZADAS
 
 - Nombre + menú -> <header>
+
 - Menú -> <nav aria-label="Navegación principal">
+
 - Contenido propio -> <main> (uno por página)
+
 - Bloques temáticos -> <section> con encabezado
+
 - Servicios de inicio -> <article> individuales
+
 - Cada tabla de tarifas -> su propio <section>
+
 - Lista "Qué llevar" -> <aside>
+
 - Horario de atención en reservas -> <aside>
+
 - Bloque final -> <footer>
 
 ================================================================
-DÍA 3 – FORMULARIO + ACCESIBILIDAD + CONTRASTE
+
+FORMULARIO + ACCESIBILIDAD + CONTRASTE
+
 ================================================================
 
 --- 1. TRES ELECCIONES DE CONTROLES JUSTIFICADAS ---
 
 (a) <input type="email"> para el correo:
+
     Permite validación nativa del navegador sin JS (verifica @ y
+
     dominio). En móvil abre el teclado con @ disponible. Mejor que
+
     type="text".
 
 (b) <select> con <optgroup> para "Opciones de alquiler":
+
     Hay 9 combinaciones (3 tipos × 3 duraciones). Un select agrupa
+
     por tipo con optgroup y evita 9 radios en pantalla. Es más
+
     compacto y accesible con teclado (flechas + Enter).
 
-(c) <textarea> para comentarios:
-    Es texto libre de longitud variable (varias líneas). Un input
-    type="text" de una sola línea obligaría a scroll horizontal.
-
 Otros controles justificados:
+
 - <input type="radio"> en "tipo de servicio": dos opciones mutuamente
+
   excluyentes (alquiler / recorrido). Mismo name="tipo_servicio"
+
   garantiza selección única.
+
 - <input type="date">: abre calendario nativo, evita formato ambiguo.
+
 - <input type="number" min="1" max="10">: limita cantidad al rango
+
   real de la flota.
+
 - <input type="checkbox"> para términos: es una aceptación única
+
   obligatoria (required), no una opción entre varias.
+
 - <input type="text"> para documento: en Colombia la cédula puede
+
   tener ceros a la izquierda que type="number" borraría.
 
---- 2. HALLAZGOS DE ACCESIBILIDAD Y CORRECCIONES ---
-
-Hallazgo 1: Todas las imágenes del index tenían alt vacío o ausente.
-Corrección: alt descriptivo en cada imagen según su función
-(logo, servicios, foto familiar, fotos de bicis, fotos de rutas).
-Las imágenes puramente decorativas no existen en este sitio; todas
-aportan información.
-
-Hallazgo 2: El enlace "Encuéntranos" en el párrafo no decía a dónde
-llevaba fuera de contexto.
-Corrección: se mantiene el texto pero el contexto lo aclara (es un
-ancla interna #encuentranos). En la página de tarifas el enlace se
-cambió a "¡Reserva tu recorrido ahora!" (texto descriptivo por sí
-solo).
-
-Hallazgo 3: El iframe del mapa no tenía title; lectores de pantalla
-no podían describirlo.
-Corrección: se agregó title="Mapa de ubicación de Rueda Libre en
-Medellín".
-
-Hallazgo 4: El menú no tenía <nav> con aria-label. Lectores de
-pantalla lo leían como una lista cualquiera.
-Corrección: <nav aria-label="Navegación principal"> en las tres
-páginas.
-
-Hallazgo 5: Los enlaces a WhatsApp y Google Maps no tenían
-rel="noopener" aunque abren en pestaña nueva (target="_blank").
-Riesgo: la página externa puede manipular window.opener.
-Corrección: se agregó rel="noopener" en todos los enlaces externos.
-
-Hallazgo 6: El campo "comentarios" no tenía asociación explícita
-label/for en la v0.1.
-Corrección: <label for="comentarios"> y <textarea id="comentarios">.
-
-Hallazgo 7 (navegación por teclado): el outline por defecto del
-navegador desaparecía en algunos botones estilizados.
-Corrección: se reemplazó por outline: 3px solid var(--naranja-pedal)
-en :focus de inputs, select, textarea, botones y enlaces del menú.
-
---- 3. MAPA DE USO DE COLOR (WCAG) ---
-
-Combinaciones evaluadas con WebAIM Contrast Checker:
+3. MAPA DE USO DE COLOR (WCAG) ---
 
 1. Blanco #FFFFFF sobre Verde Ruta #1E7A4F ......... 5.10:1 APTA normal
+
 2. Blanco sobre Naranja Pedal #F39A2B .............. 2.09:1 NO APTA
+
 3. Azul Noche #14213D sobre Naranja Pedal .......... 7.22:1 APTA normal
+
 4. Azul Noche sobre Crema #FAF6EF ................. 14.62:1 APTA normal
+
 5. Gris Asfalto #5B6470 sobre Crema ............... 5.42:1 APTA normal
+
 6. Verde Ruta sobre Crema ......................... 4.86:1 APTA normal
+
 7. Naranja Pedal sobre Crema ...................... 2.02:1 NO APTA
+
 8. Blanco sobre Azul Noche #14213D ................ 15.98:1 APTA normal
 
 Uso final:
+
 - Texto normal: Azul Noche o Gris Asfalto sobre Crema; Blanco sobre
+
   Azul Noche; Blanco sobre Verde Ruta.
+
 - Títulos: Azul Noche.
+
 - Enlaces de texto: Verde Ruta sobre Crema.
+
 - Botón primario: fondo Verde Ruta + texto Blanco.
+
 - Botón secundario / destacados: fondo Naranja Pedal + texto Azul
+
   Noche (NUNCA texto blanco sobre Naranja).
+
 - Enlaces sobre fondo oscuro: Naranja Pedal.
+
 - Etiqueta "Nuevo": fondo Naranja Pedal + texto Azul Noche.
+
 - Estado :hover de menú: fondo Naranja Pedal + texto Azul Noche.
 
-Prohibiciones que respeté en el CSS:
-- NO usar #FFFFFF como texto sobre #F39A2B.
-- NO usar #F39A2B como color de texto sobre #FAF6EF.
 
 ================================================================
-DÍA 4 – FUENTES, VARIABLES, NAVEGACIÓN Y POSICIONAMIENTO
+
+FUENTES, VARIABLES, NAVEGACIÓN Y POSICIONAMIENTO
+
 ================================================================
 
 --- 1. HERENCIA CSS COMPROBADA EN DEVTOOLS ---
 
 Propiedad que SE HEREDA desde body a un párrafo:
+
   font-family.
+
   En DevTools > p > Computed, font-family aparece como "Open Sans,
+
   Arial, sans-serif", heredado del body. Lo mismo aplica a color
+
   (Gris Asfalto) y line-height (1.6). Estos se aplican solo en el
+
   body y bajan por herencia.
 
 Propiedad que NO SE HEREDA desde body a un párrafo:
+
   background-color.
+
   El body tiene background-color: var(--crema), pero el párrafo no
+
   lo hereda (DevTools > p > Computed muestra background-color como
+
   rgba(0,0,0,0) porque el fondo por defecto es transparente y lo que
+
   se ve es el fondo del body detrás).
 
---- 2. CONFLICTO DE ESPECIFICIDAD DEL COMPAÑERO ---
-
 Reglas originales:
+
   #menu a { color: var(--gris-asfalto); }
+
   .activo { color: var(--verde-ruta); font-weight: 600; }
 
 Cálculo de especificidad:
+
   #menu a  -> (0, 1, 1)  [1 id + 0 clases + 1 elemento]
+
   .activo  -> (0, 1, 0)  [0 ids + 1 clase + 0 elementos]
 
-Resultado: #menu a gana porque su especificidad es MAYOR. La clase
-.activo pierde aunque se aplique al <a>. Por eso "la clase no
-funcionaba".
-
-Solución sin !important ni estilos en línea:
-  Se subió la especificidad del selector .activo a #menu a.activo:
-  #menu a.activo -> (1, 1, 1) [1 id + 1 clase + 1 elemento]
-  Ahora gana sobre #menu a (1, 1, 1) vs (0, 1, 1). Se aplica solo al
-  enlace activo.
-
---- 3. ESTADOS :hover y :focus ---
+-- ESTADOS :hover y :focus ---
 
 - Menú (#menu a): hover y focus -> fondo Naranja Pedal + texto Azul
+
   Noche + outline 2px Azul Noche.
+
 - Botones (.btn-reservar, .btn-cta, button[type=submit]): hover y
+
   focus -> fondo Naranja Pedal + texto Azul Noche + outline Azul
+
   Noche.
+
 - Campos de formulario (input, select, textarea): :focus -> outline
+
   3px Naranja Pedal + border-color Azul Noche (reemplaza el outline
+
   del navegador).
+
 - WhatsApp flotante: hover y focus -> fondo Naranja Pedal + outline
+
   Crema.
 
 Verificado en DevTools con el botón :hov (Estados). Recorrido con
+
 Tab en las tres páginas: el foco siempre es visible.
 
---- 4. POSICIONAMIENTO ---
+--- POSICIONAMIENTO ---
 
 Etiqueta "Nuevo" en tarjeta eléctrica:
+
   .tarjeta-bici { position: relative; }
+
   .nuevo { position: absolute; top: 0.6rem; right: 0.6rem; }
+
   No desplaza el contenido (el flujo no la reserva).
 
 WhatsApp flotante:
+
   .whatsapp-flotante { position: fixed; bottom: 1rem; right: 1rem; }
+
   Se agrega padding-bottom extra al footer
+
   (calc(var(--esp-grande) + 3.5rem)) para que no tape el contenido
+
   final.
+
   Enfocable con teclado: es un <a href> normal.
 
 ================================================================
-DÍA 5 – FLEXBOX, GRID, LAYOUT Y RESPONSIVE
+
+ FLEXBOX, GRID, LAYOUT Y RESPONSIVE
+
 ================================================================
 
 --- 1. MEDICIÓN DE BOX-SIZING EN UNA TARJETA ---
 
 Tarjeta .tarjeta-bici con padding: 1rem, border: 1px, width: 400px
-(contenido teórico).
 
 ANTES (box-sizing: content-box):
+
   ancho total = 400 (contenido) + 2*16 (padding) + 2*1 (borde)
+
              = 434 px
 
 DESPUÉS (box-sizing: border-box, el que se aplicó globalmente con
+
 * { box-sizing: border-box; }):
+
   ancho total = 400 px (el padding y borde se restan del contenido,
+
   no se suman)
 
 Verificado en DevTools > .tarjeta-bici > Computed:
+
   box-sizing: border-box
+
   width: 400px
+
   padding: 16px
+
   border: 1px
+
   (el "content" real es 366px)
+
 
 --- 2. COLUMNAS DE LA CUADRÍCULA DE FLOTA OBSERVADAS ---
 
 Con grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)):
 
+ 
+
   A 1280 px de ancho de viewport ................ 4 columnas
+
   A 900 px ..................................... 3 columnas
+
   A 500 px ..................................... 1 columna
 
 (Con 16rem = 256px mínimo + gap de 2rem, el auto-fit ajusta el
+
 número de columnas al espacio. El 7° modelo, Tándem, se acomodó sin
+
 tocar el CSS.)
+
 
 --- 3. JUSTIFICACIÓN FLEXBOX vs GRID (6 CASOS) ---
 
-Criterio aplicado:
-  - Una dimensión (alinear en fila o columna) -> Flexbox.
-  - Dos dimensiones (filas y columnas a la vez) -> Grid.
-
 Caso 1: Encabezado (header)
+
   Flexbox. Es una sola fila con dos elementos (nombre y menú) que se
+
   alinean horizontalmente y se separan con justify-content.
-  Con Grid se podría, pero Flexbox es el caso de uso natural para
-  barras de navegación de una dimensión.
 
 Caso 2: Pie de página (footer)
+
   Flexbox. Es una sola fila con 3 bloques alineados por arriba y
+
   separados uniformemente con gap. Una dimensión.
 
 Caso 3: Portada de inicio (.portada)
+
   Grid. Son dos columnas (texto / logo) con alineación vertical
-  centrada. Podría ser Flexbox, pero Grid permite definir el reparto
-  de columnas con fr de forma explícita y controlar el gap sin
-  pensar en flex-basis.
+
+  centrada.
 
 Caso 4: Galería "Nuestras rutas" (.grid-rutas)
-  Grid. Son 3 columnas con imágenes y texto de altura variable. Grid
-  iguala automáticamente las alturas por fila, algo que Flexbox no
-  hace sin trucos.
+
+  Grid. Son 3 columnas con imágenes y texto de altura variable.
 
 Caso 5: Reservas (.layout-reservas)
+
   Grid. Son dos columnas (formulario 2fr / aside 1fr) con contenido
+
   de altura muy distinta. Grid respeta la proporción 2:1 con fr.
 
 Caso 6: Fila documento+celular (.fila-doble)
+
   Grid. Son dos campos en la misma fila con columnas 1fr 1fr. Podría
+
   ser Flexbox, pero Grid deja el ancho explícito en fr y permite
+
   pasar a 1 columna con un solo cambio en @media.
 
-Extra: Tarjeta (.tarjeta-bici)
-  Flexbox en columna. El contenido interno (imagen, texto, precio,
-  botón) se apila en una sola dimensión. flex-grow: 1 en el párrafo
-  empuja el botón al final.
-
-Extra: Menú (#menu)
-  Flexbox con flex-wrap: wrap. Una dimensión (fila) que puede
-  envolverse a varias líneas al estrechar la ventana.
 
 --- 4. TRES PROBLEMAS RESPONSIVE Y SU SOLUCIÓN ---
 
 Problema 1 (360 px): El menú del header se desbordaba a la derecha.
+
   Causa: el header tenía justify-content: space-between en fila
+
   incluso en móvil, y los enlaces no cabían.
+
   Solución: en móvil el header es flex-direction: column
+
   (nombre arriba, menú abajo centrado) y #menu usa flex-wrap: wrap.
+
   Desde min-width: 768px vuelve a fila con space-between.
 
 Problema 2 (360 px): Las tablas de tarifas obligaban a scroll
+
   horizontal.
+
   Causa: los th/td con padding 12px y 5 columnas no caben en 360 px.
+
   Solución: se redujo el padding de th/td a 0.75rem y se permite que
+
   el texto se ajuste en varias líneas. La tabla ya no genera scroll
+
   horizontal a 360 px.
 
 Problema 3 (768 px): La portada ocupaba toda la altura y el logo
+
   quedaba enorme.
+
   Causa: min-height: 60vh sin límite de tamaño de imagen.
+
   Solución: img { max-width: 100%; height: auto; } global. El logo
+
   se ajusta a la columna del Grid sin deformarse.
 
-(Problema extra detectado y resuelto): A 360 px las tarjetas de
-flota se veían muy angostas con minmax(16rem, 1fr). Se confirmó que
-a 500 px ya se ve 1 columna correctamente con el padding actual,
-así que no hizo falta media query: auto-fit maneja el cambio.
-
---- 5. PUNTOS DE QUIEBRE APLICADOS ---
-
-- Móvil (base, sin media query): una columna, header en columna,
-  footer en columna.
-- Tablet (min-width: 768px): header en fila, portada 2 columnas,
-  galería rutas 3 columnas, beneficios 2 columnas, layout reservas
-  2fr 1fr, fila-doble 2 columnas, footer 3 bloques en fila.
-- Escritorio (min-width: 1200px): tamaños de h1/h2 aumentados,
-  beneficios 4 columnas.
 
 ================================================================
-DÍA 6 – BOOTSTRAP 5.3
+
+BOOTSTRAP 5.3
+
 ================================================================
 
 --- 1. COMPARACIÓN: CSS PROPIO vs BOOTSTRAP ---
 
 Página propia (index.html) – sección flota:
-  CSS de distribución propio: .grid-flota + .tarjeta-bici +
-  .tarjeta-bici img + .tarjeta-bici .precio + .btn-reservar.
-  Líneas de CSS dedicadas solo a la flota: ~35 líneas (grid, gap,
-  flex interno, botón, precio, etiqueta).
-  Tiempo de construcción original: ~30-40 min (incluye decisiones
-  de diseño y pruebas responsive).
+
+CSS de distribución propio: .grid-flota + .tarjeta-bici +
+
+.tarjeta-bici img + .tarjeta-bici .precio + .btn-reservar.
+
+Líneas de CSS dedicadas solo a la flota: ~35 líneas (grid, gap,
+
+flex interno, botón, precio, etiqueta).
+
+Tiempo de construcción original: ~30-40 min (incluye decisiones de diseño y pruebas responsive).
+
 
 Página Bootstrap (pruebas/catalogo-bootstrap.html):
+
   CSS de distribución: 0 líneas propias.
+
   Clases usadas por tarjeta: ~10 (col-12 col-sm-6 col-lg-4 col-xl-3,
+
   card, h-100, shadow-sm, card-img-top, card-body, d-flex
+
   flex-column, card-title fs-5, card-text flex-grow-1,
+
   fw-bold text-success mb-3, btn btn-success mt-auto).
-  Tiempo de construcción: ~10-15 min (solo escribir marcado, sin
-  decidir nada nuevo).
 
 Qué dio Bootstrap sin esfuerzo:
+
   - Grilla responsive 1/2/3/4 columnas sin media queries.
+
   - Igualación automática de alturas con h-100.
+
   - Sistema de espaciado (g-4, mb-3, p-3) consistente.
+
   - Componente card con estilos listos.
+
   - Botón con :hover y :focus incluidos.
+
   - Badge para "Nuevo".
 
-Qué control perdí:
-  - No controlo los valores exactos de espaciado (dependen de la
-    escala de Bootstrap, no de mi --esp-grande).
-  - Los colores no coinciden al 100% con la paleta del cliente
-    (bg-success es el verde de Bootstrap, no #1E7A4F). Para
-    igualarlos habría que sobrescribir variables de Bootstrap o
-    agregar CSS propio, lo que rompe la regla "sin CSS propio".
-  - La tipografía Montserrat/Open Sans no se aplica sin CSS extra.
-  - Necesito recordar los nombres de las utilidades (curva de
-    aprendizaje) o consultar la documentación.
-  - Dependencia de un CDN externo.
-
-Conclusión: Bootstrap acelera el armado inicial pero desplaza el
-control de la identidad visual. Para este proyecto de marca, el CSS
-propio sigue siendo la mejor opción para el sitio público, y
-Bootstrap es útil para prototipar rápido.
 
 --- 2. CINCO CLASES DE BOOTSTRAP CONSULTADAS EN LA DOCUMENTACIÓN ---
 
+
 1. col-xl-3 (Grid > Column sizing):
+
    Define que el elemento ocupa 3 de las 12 columnas de la grilla
+
    desde el breakpoint xl (≥1200 px). Se usa para mostrar 4 tarjetas
+
    por fila en escritorio grande.
 
 2. d-none d-md-block (Display > Display property):
+
    d-none oculta el elemento; d-md-block lo vuelve a mostrar como
+
    bloque desde el breakpoint md (≥768 px). Se usó en la imagen
+
    decorativa de la franja "¿Listo para rodar?" para ocultarla en
+
    celular y mostrarla desde tablet.
 
 3. h-100 (Sizing > Relative to the parent):
+
    Hace que el elemento ocupe 100% de la altura del contenedor.
+
    En las cards iguala la altura de todas las tarjetas de una misma
+
    fila.
 
 4. flex-grow-1 (Flex > Flex grow and shrink):
+
    Hace que el elemento crezca para ocupar el espacio libre. En la
+
    card lo aplicamos al párrafo de descripción para empujar el
+
    botón "Reservar" al final, igual que hicimos con flexbox propio.
 
 5. border-start border-4 border-success (Borders > Border):
+
    Aplica un borde izquierdo (start en LTR) de grosor 4 en el color
+
    success. Se usó en cada beneficio para dar una línea de marca a
+
    la izquierda sin CSS propio.
-
-(Extra consultada) g-4 (Gutters):
-   Espaciado entre columnas y filas en la grilla. Equivale a gap de
-   1.5rem. Se usó en el .row de la flota.
-
-================================================================
-RESUMEN FINAL DE LA SEMANA
-================================================================
-
